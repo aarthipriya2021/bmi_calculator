@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,11 +37,16 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
     },
 }));
+const theme = createTheme();
 
+theme.typography.h4 = {
+    fontFamily: "Crete Round",
+    color:'mediumblue'
+};
 function Form() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [height, setHeight] = useState('');
+  const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [bmiResult, setBmiResult] = useState(null);
   const [status, setStatus] = useState('');
@@ -63,57 +69,59 @@ function Form() {
     else return "Obese";
   }
     return (
-        <Grid container component="main" className={classes.root}>
-          <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
-              <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                        BMI CALCULATOR
-                    </Typography>
-                        <form className={classes.form} noValidate >
-                            <TextField
-                                variant='outlined'
-                                id="height"
-                                margin='normal'
-                                required
-                                fullWidth
-                                placeholder='Height in cm'
-                                type="text"
-                                value={height}
-                                onChange={e => setHeight(e.target.value)}
-                            />
-                            <TextField
-                                variant='outlined'
-                                id="weight"
-                                margin='normal'
-                                required
-                                fullWidth
-                                placeholder='Weight in kg'
-                                type="text"
-                                value={weight}
-                                onChange={e => setWeight(e.target.value)}
-                            />
-                        </form>
-                        <div className={classes.button}>
-                            <Button 
-                                type='submit'
-                                variant="contained" 
-                                color="primary" 
-                                fullWidth
-                                className={classes.submit}
-                                onClick={CalculateBMI}
-                            >Validate
-                            </Button>
-                        </div>
-                        {bmiResult &&
-                        <div>
-                            <p>Your BMI is: {bmiResult}</p>
-                            <p>You are currently: {status}</p>
-                        </div>}
-                </div>
-              </Grid>  
-        </Grid>
+        <ThemeProvider theme={theme}>
+            <Grid container component="main" className={classes.root}>
+            <CssBaseline />
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={classes.paper}>
+                        <Typography component="h1" variant="h4">
+                            BMI CALCULATOR
+                        </Typography>
+                            <form className={classes.form} noValidate >
+                                <TextField
+                                    variant='outlined'
+                                    id="height"
+                                    margin='normal'
+                                    required
+                                    fullWidth
+                                    placeholder='Height in cm'
+                                    type="number"
+                                    value={height}
+                                    onChange={e => setHeight(e.target.value)}
+                                />
+                                <TextField
+                                    variant='outlined'
+                                    id="weight"
+                                    margin='normal'
+                                    required
+                                    fullWidth
+                                    placeholder='Weight in kg'
+                                    type="number"
+                                    value={weight}
+                                    onChange={e => setWeight(e.target.value)}
+                                />
+                            </form>
+                            <div className={classes.button}>
+                                <Button 
+                                    type='submit'
+                                    variant="contained" 
+                                    color="primary" 
+                                    fullWidth
+                                    className={classes.submit}
+                                    onClick={CalculateBMI}
+                                >Validate
+                                </Button>
+                            </div>
+                            {bmiResult &&
+                            <div>
+                                <p>Your BMI is: {bmiResult}</p>
+                                <p>You are currently: {status}</p>
+                            </div>}
+                    </div>
+                </Grid>  
+            </Grid>
+        </ThemeProvider>
     );
 }
 export default Form
